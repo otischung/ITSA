@@ -7,10 +7,7 @@ int main() {
     char input[4096];
     char *front, *end;
     bool yn;
-    fgets(input, 4096, stdin);
-    if (input[strlen(input) - 1] == '\n') {
-        input[strlen(input) - 1] =  '\0';
-    }
+    scanf("%s", input);
     front = input;
     end = input + strlen(input) - 1;
     yn = true;
