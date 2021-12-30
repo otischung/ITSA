@@ -7,7 +7,11 @@ int main() {
     char input[4096];
     char *front, *end;
     bool yn;
-    scanf("%s", input);
+    scanf("%s", input);  // can't use fgets, I don't know why.
+    // fgets(input, 4096, stdin);
+    // if (input[strlen(input) - 1] == '\n') {
+    //     input[strlen(input) - 1] =  '\0';
+    // }
     front = input;
     end = input + strlen(input) - 1;
     yn = true;
