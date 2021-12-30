@@ -22,9 +22,9 @@ int main() {
     uint8_t n_S, n_H, n_D, n_C;
 
     scanf("%d", &row);
-    // scanf("%*[^\n]");
-    // scanf("%*[\n]");
-    getchar();
+    scanf("%*[^\n]");
+    scanf("%*[\n]");
+    // getchar();
     for (int i = 0; i < row; ++i) {
         n_S = 0;
         n_H = 0;
