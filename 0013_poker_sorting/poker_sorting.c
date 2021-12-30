@@ -12,7 +12,7 @@ int main() {
     int num;
     char suits;
     char buf[4096];
-    char numbuf[4];
+    char numbuf[4096];
     char token[] = " ";
     char *ptr, *qtr, *saveptr;
     uint8_t S[13];
@@ -36,11 +36,12 @@ int main() {
         while (ptr != NULL) {
             suits = *ptr++;
             qtr = numbuf;
+            memset(numbuf, '\0', 4096 * sizeof(char));
             while (*ptr >= '0' && *ptr <='9') {
                 *qtr++ = *ptr++;
             }
             num = atoi(numbuf);
-            memset(numbuf, '\0', 4 * sizeof(char));
+            memset(numbuf, '\0', 4096 * sizeof(char));
             switch (suits) {
                 case 'S':
                     S[n_S++] = (uint8_t)num;
@@ -64,19 +65,26 @@ int main() {
         qsort(H, n_H, sizeof(H[0]), cmp);
         qsort(D, n_D, sizeof(D[0]), cmp);
         qsort(C, n_C, sizeof(C[0]), cmp);
+        buf[0] = '\0';
         for (int i = n_S - 1; i >= 0; --i) {
-            printf("S%d ", S[i]);
+            sprintf(numbuf, "S%d ", S[i]);
+            strncat(buf, numbuf, 4096);
         }
         for (int i = n_H - 1; i >= 0; --i) {
-            printf("H%d ", H[i]);
+            sprintf(numbuf, "H%d ", H[i]);
+            strncat(buf, numbuf, 4096);
         }
         for (int i = n_D - 1; i >= 0; --i) {
-            printf("D%d ", D[i]);
+            sprintf(numbuf, "D%d ", D[i]);
+            strncat(buf, numbuf, 4096);
         }
         for (int i = n_C - 1; i >= 0; --i) {
-            printf("C%d ", C[i]);
+            sprintf(numbuf, "C%d ", C[i]);
+            strncat(buf, numbuf, 4096);
         }
-        putchar('\n');
+        buf[strlen(buf) - 1] = '\n';
+        buf[strlen(buf)] = '\0';
+        printf("%s", buf);
     }
     return 0;
 }
