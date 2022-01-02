@@ -12,7 +12,7 @@ int main() {
     char a[1024], b[1024], s[1024];  // support 1020 digits.
     char as[18], bs[18];             // s: split
     char *aptr, *bptr, *aqtr, *bqtr, *asptr, *bsptr;
-    bool asign, bsign;
+    bool asign, bsign, swap;
     int64_t x[60], y[60], sum[60];  // split the digits into 60 pieces, each has 17 digits.
     int8_t c;
     bool error, format;
@@ -59,7 +59,7 @@ int main() {
         }
         if (b[0] == '-') {
             bsign = NEGATIVE;
-            a[0] = '0';
+            b[0] = '0';
         }
         aptr = a;
         bptr = b;
@@ -98,6 +98,9 @@ int main() {
             strcpy(s, a);
             strcpy(a, b);
             strcpy(b, s);
+            swap = asign;
+            asign = bsign;
+            bsign = swap;
             memset(s, '\0', 1024 * sizeof(char));
         }
         // perform atoll
@@ -105,7 +108,7 @@ int main() {
         bptr = b + strlen(b) - 1;
         for (int i = 59; i >= 0; --i) {
             asptr = as + 17;
-            bsptr = as + 17;
+            bsptr = bs + 17;
             *asptr-- = '\0';
             *bsptr-- = '\0';
             while (aptr >= a && asptr >= as) {
@@ -127,13 +130,15 @@ int main() {
         printf("%c%s\n%c%s\n", "+-"[asign], a, "+-"[bsign], b);
         // test
         if (asign) putchar('-');
+        else putchar('+');
         for (int i = 0; i < 60; ++i) {
-            printf("%lld", x[i]);
+            if (x[i] != 0) printf("%017lld", x[i]);
         }
         putchar('\n');
         if (bsign) putchar('-');
+        else putchar('+');
         for (int i = 0; i < 60; ++i) {
-            printf("%lld", y[i]);
+            if (y[i] != 0) printf("%017lld", y[i]);
         }
         putchar('\n');
         // decide to add or to substract
